@@ -22,6 +22,7 @@ for line in f:
         data.append((int(currentlist[0]), int(currentlist[1])))
         size += int(currentlist[0])
 
+
 #append the size and arrival time on data
 product_num = len(data)  # the total amount of products of this day,  N 
 f.close()
@@ -216,8 +217,8 @@ def check_loss_ratio(R, B):               #Step2 function
     else:
         print 'length of data_to_lose: ' + str(len(data_to_lose))
         print 'total number of losses: ' + str(num_violation)
-        print data_to_lose[0]
-        print data_to_lose[len(data_to_lose) - 1]
+       # print data_to_lose[0]
+       # print data_to_lose[len(data_to_lose) - 1]
         return True
 
 
@@ -239,7 +240,7 @@ def main():
         R_Mbps = R * 8 / 1000000
         print 'Rate: ' + str(R_Mbps)
         print 'Utilization: ' + str(size / float(R * 3600 * 24))
-        R -= 2 * 1000000 / 8
+        R -= 1 * 1000000 / 8
     while not check_throughput_ratio_inf_buffer(R):
         R_Mbps = R * 8 / 1000000
         print 'Rate: ' + str(R_Mbps)

@@ -30,7 +30,7 @@ def my_range(start, end, step):  # define rate range.
 
         
 def missed_deadline(R, W, B):
- ## print R
+    print R
     if B == [0]:
         return False
     waiting_times = []
@@ -66,7 +66,7 @@ for Waiting_time in my_range(10, 20, 1):  # waiting time range 15-20, step is 0.
     #current_ratio = missed_deadline(rate, Waiting_time, buffer_sizes)
     if (current_ratio):           # while true, rate is okay ,so decrease the rate by  for a better utilization
         while(current_ratio):
-            rate = rate - 2 * 1000000 / 8
+            rate = rate - 1 * 1000000 / 8
             buffer_sizes = [0]
             for i in range(1, len(data)):
                 b = max(0, buffer_sizes[len(buffer_sizes) - 1] + data[i - 1][0] - rate * (data[i][1] - data[i - 1][1]) / float(1000))
