@@ -235,17 +235,17 @@ def main():
     ''' Main function'''
 
     ''' Adjusting Rate to find the best available that satisfies the throughput threshold'''
-    R = 10 * 1000000 / 8   #unit£ºB/s
+    R = 1 * 1000000 / 8   #unit£ºB/s
     while check_throughput_ratio_inf_buffer(R):
         R_Mbps = R * 8 / 1000000
         print 'Rate: ' + str(R_Mbps)
         print 'Utilization: ' + str(size / float(R * 3600 * 24))
-        R -= 1 * 1000000 / 8
+        R -= 0.1 * 1000000 / 8
     while not check_throughput_ratio_inf_buffer(R):
         R_Mbps = R * 8 / 1000000
         print 'Rate: ' + str(R_Mbps)
         print 'Utilization: ' + str(size / float(R * 3600 * 24))#util == size/whole days's bits
-        R += 2 * 1000000 / 8
+        R += 0.1 * 1000000 / 8
     R_Mbps = R * 8 / 1000000 # to Mb unit R
     print 'Rate: ' + str(R_Mbps)
     print 'Utilization: ' + str(size / float(R * 3600 * 24))
