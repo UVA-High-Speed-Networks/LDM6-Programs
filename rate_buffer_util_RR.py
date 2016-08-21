@@ -7,7 +7,7 @@ import csv
 import sys
 
 throughput_threshold_ratio = 0.05 #H
-loss_threshold_ratio = 0.1        #L
+loss_threshold_ratio = 0.        #L
 thro_threshold = 10 / 8          #G
 feedtype = 'FSL2'   #for output filename
 inputfile = sys.argv[1]    #input sorted csv file by parse.py
@@ -46,7 +46,7 @@ def check_throughput_ratio_inf_buffer(R): # step 1 function
     while j < product_num:
         while j < product_num and time < int(data[j][1]):
             i = 0
-            while i < len(buffered_product):
+            while i < len(buffered_product) and j < product_num:
                 if buffered_product[i][0] > 1428:   # Block size, remain packet of one product decrease, time is added 
                     t = 1428/(float)(R)*1000
                     time += t  # unit: ms
@@ -55,7 +55,10 @@ def check_throughput_ratio_inf_buffer(R): # step 1 function
                 else:
                     t = buffered_product[i][0]/(float(R))*1000 #when the remain packet length less than 1428, add the last transmission time
                     time += t
-                    throughput = buffered_product[i][2] / (time - buffered_product[i][1])  #throughput = size of product /(departure time - arrival time) kBps
+                    if((time - buffered_product[i][1])!=0):
+                        throughput = buffered_product[i][2] / (time - buffered_product[i][1])  #throughput = size of product /(departure time - arrival time) kBps
+                    else:
+                        throughput = 0
                     through_sum += throughput
                     throughputs.append(throughput)
                     if throughput < thro_threshold:  # throughput < G
@@ -126,7 +129,7 @@ def check_loss_ratio(R, B):               #Step2 function
     while j < product_num:
         while j < product_num and time < int(data[j][1]):
             i = 0
-            while i < len(buffered_product):
+            while i < len(buffered_product) and j < product_num:
                 if buffered_product[i][0] > 1428:
                     t = 1428/(float)(R)*1000
                     time += t
@@ -235,7 +238,7 @@ def main():
     ''' Main function'''
 
     ''' Adjusting Rate to find the best available that satisfies the throughput threshold'''
-    R = 1 * 1000000 / 8   #unit£ºB/s
+    R = 1.6 * 1000000 / 8   #unit£ºB/s
     while check_throughput_ratio_inf_buffer(R):
         R_Mbps = R * 8 / 1000000
         print 'Rate: ' + str(R_Mbps)
