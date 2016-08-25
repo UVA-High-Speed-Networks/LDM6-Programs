@@ -1,0 +1,44 @@
+
+Aug. 10-26, 2015
+MV
+
+Problem: how to collect pcap files for long (or large) file transfers,
+e.g., LDM or big dataset GridFTP move?
+
+1. Thought of using 5-min files and two files alternating between tcpdump
+and tcptrace (Reza found something on using a pipe - is it continuous tcptrace
+action on pcap - not sure - waiting for Xiang).
+
+a. Have to overlap captures so that no packets are missed. So then duplicate
+packets from consecutive files need to be removed.
+
+
+b. Had a long discussion in HSN group.
+We figured out that for LDM6 7 hours NGRID data, we don't need -g rotate
+seconds, nor do we need to use two files (one for collection and one for tcptrace
+analysis). Why? For NGRID 7-hour data, using -s 70 B, we determined that the
+pcap file won't be that big. We can collect one file and run tcptrace at the end.
+
+I said this is a fine conclusion
+for our LDM6 NGRID problem but it is not "satisfying" - it would be good to
+have a scalable solution. We figured out that if pcap collects a transmission in one file and the retx
+occurs in the next file, then in the second file that segment
+will appear as out-of-order packet. 
+
+Also said we should not use pcap collection at receiver to determine
+losses because many segments will be counted as out-of-order because
+sender is sending cwnd of packets while receiver is awaiting the one lost
+packet. So out-of-order cannot be trusted at receiver. Also receiver won't
+know retransmitted packets because those didn't reach receiver. So collection
+has to be at sender. At sender, tcptrace can figure out retx packets if
+it sees the original tx and the retx. We did not understand why sender reports
+out-of-order packets. If no packets are dropped by tcpdump, and libpcap at sender
+is plugging in above the wire (of the NIC), why are any packets out-of-order?
+There should not be any out-of-order packets.
+
+However, we did find a scalable answer: which is to use two files at sender
+for collection, overlap the collection by a short duration, write a script
+to remove the overlapped segments and then to add retx packets and out-of-order
+packets reported in both files. because second file will report a segment
+that it didn't see (because that segment was captured in first file) as out-of-order
+packet.

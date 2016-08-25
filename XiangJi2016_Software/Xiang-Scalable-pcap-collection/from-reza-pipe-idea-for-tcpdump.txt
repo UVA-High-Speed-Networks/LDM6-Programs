@@ -1,0 +1,30 @@
+
+Subject:
+[HSN Research Group] Huge pcap file solution
+From:
+gholamreza rahimi <gr5yf@virginia.edu>
+Date:
+8/20/2015 7:16 PM
+To:
+hsn-research-group@collab.itc.virginia.edu
+
+[HSN Research Group] Huge pcap file solution
+Hi again,
+
+Here is a very nice solution for huge tcpdump large size files.
+
+The solution is so simple. Creating a pipe between tcpdump output and tcptrace input.
+
+
+mkfifo tmppipe 
+tcptrace -r -l tmppipe (in one terminal/command line) 
+tcpdump -w tmppipe (in other terminal/command line) 
+
+Xiang can test this solution on his problem and please let us know the result.
+
+Regards,
+Reza
+
+
+This automatic notification message was sent by UVaCollabAdmin (https://collab.itc.virginia.edu/portal) from the HSN Research Group site.
+You can modify how you receive notifications at My Workspace > Preferences.

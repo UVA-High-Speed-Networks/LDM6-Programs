@@ -1,0 +1,25 @@
+
+Subject:
+[HSN Research Group] Reducing "tcpdump" drop rate with a simple idea
+From:
+gholamreza rahimi <gr5yf@virginia.edu>
+Date:
+8/20/2015 6:33 PM
+To:
+hsn-research-group@collab.itc.virginia.edu
+
+[HSN Research Group] Reducing "tcpdump" drop rate with a simple idea
+Hi All,
+
+I found this page an interesting way to reduce packets drop in "tcpdump".
+
+This method may not be helpful with one flow but at least for my tests which scalability is important (thousands of flows), I should take into account this issue.
+
+http://prefetch.net/blog/index.php/2011/06/09/one-way-to-avoid-tcpdump-packets-dropped-by-kernel-messages/
+
+Regards,
+Reza
+
+
+This automatic notification message was sent by UVaCollabAdmin (https://collab.itc.virginia.edu/portal) from the HSN Research Group site.
+You can modify how you receive notifications at My Workspace > Preferences.
